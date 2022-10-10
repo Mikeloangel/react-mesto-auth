@@ -1,0 +1,24 @@
+
+.section-header{
+    --border-color: var(--coloron-primary-low, #000);
+
+    padding-top: 45px;
+    padding-bottom: 41px;
+    
+    border-bottom: 1px solid var(--border-color);
+}
+
+@media screen and (max-width:760px) {
+    .section-header{
+        padding-top: 35px;        
+    }    
+}
+
+@media screen and (max-width:425px) {
+    .section-header{
+        padding-top: 28px;
+        padding-bottom: 32px;
+        width: 100%;
+    }    
+}
+
