@@ -1,0 +1,14 @@
+.section-header__link {
+  --color: var(--coloron-primary, #ccc);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.2;
+  text-align: right;
+
+  color: #FFFFFF;
+  text-decoration: var(--color);
+}
+
+.section-header__link:hover {
+  opacity: .6;
+}

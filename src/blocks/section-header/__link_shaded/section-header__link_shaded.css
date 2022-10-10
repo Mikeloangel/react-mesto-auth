@@ -1,0 +1,4 @@
+.section-header__link_shaded{
+  --color: var(--coloron-primary-low, #ccc);
+  color: var(--color);
+}

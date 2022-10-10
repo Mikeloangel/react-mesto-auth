@@ -1,0 +1,5 @@
+.section-header__service{
+  display: flex;
+  gap: 24px;
+  align-items: baseline;
+}

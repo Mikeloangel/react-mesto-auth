@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
+import { Route, Switch } from 'react-router-dom';
+
 import { currentUserContext } from '../contexts/currentUserContext';
 
 import api from "../utils/Api";
+
+import ProtectedRoute from './ProtectedRoute';
+
+import Register from "./Register";
+import Login from "./Login";
 
 import Header from './Header';
 import Main from './Main';
@@ -13,7 +20,10 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteConfirmationPopup from './DeleteConfirmationPopup';
 import PopupWithNotification from './PopupWithNotification';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import InfoToolTip from './InfoTooltip';
+
+import imgSuccess from '../images/succeed.png';
+import imgFail from '../images/fail.png';
 
 function App() {
   //States
@@ -30,6 +40,8 @@ function App() {
 
   const [isLogged, setIsLogged] = useState(true);
   // const [isLogged, setIsLogged] = useState(false);
+
+  const imgList = {'succeed':imgSuccess, 'fail':imgFail};
 
   //On mount effects
   React.useEffect(() => {
@@ -150,29 +162,27 @@ function App() {
         <Header />
 
         <Switch>
-          <Route exact path={'/'}>
-            {isLogged ?
-              (<>
-                <Main
-                  onEditProfile={handleEditProfileClick}
-                  onAddPlace={handleAddPlaceClick}
-                  onEditAvatar={handleEditAvatarClick}
-                  handleCardClick={handleCardClick}
-                  cards={cards}
-                  onCardLike={handleCardLike}
-                  onCardDelete={handleCardDelete}
-                />
-              </>)
-              : <Redirect to={'/sign-in'} />}
-          </Route>
+          <ProtectedRoute
+            exact
+            path={'/'}
+            component={Main}
+            isLogged={isLogged}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            handleCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete} />
 
           <Route path={'/sign-up'}>
-            <p>Sign up / Register</p>
+            <Register />
           </Route>
 
           <Route path={'/sign-in'}>
-            <p>Sign in / Login</p>
+            <Login />
           </Route>
+
 
           <Route path={'*'}>
             <p>404 Resource not found</p>
@@ -194,6 +204,10 @@ function App() {
 
         {/* Popup with notification, shows API errors */}
         <PopupWithNotification onClose={closeNotificationPopup} message={apiErrorMessage} title="Ошибка в работе API" />
+
+
+        {/* <InfoToolTip message={'Вы успешно зарегистрировались!'} imgList={imgList} type='succeed' isOpen={true}/> */}
+        {/* <InfoToolTip message={'Что-то пошло не так!Попробуйте ещё раз.'} imgList={imgList} type='fail' isOpen={true}/> */}
 
       </div>
     </currentUserContext.Provider>

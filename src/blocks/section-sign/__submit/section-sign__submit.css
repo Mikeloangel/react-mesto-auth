@@ -1,0 +1,25 @@
+.section-sign__submit {
+  --color: var(--color-primary, #555);
+  --color-bg: var(--coloron-primary, #ccc);
+
+  width: 100%;
+
+  padding: 14px 0;
+  margin-bottom: 15px;
+
+  border-radius: 2px;
+  border: 0;
+
+  color: var(--color);
+  background-color: var(--color-bg);
+
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.2;
+
+  text-align: center;
+}
+
+.section-sign__submit:hover{
+  opacity: .85;
+}

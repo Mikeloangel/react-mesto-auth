@@ -41,12 +41,20 @@
 @import url(./blocks/popup/__form-error/popup__form-error.css);
 @import url(./blocks/popup/__form-error/_visible/popup__form-error_visible.css);
 @import url(./blocks/popup/__message/popup__message.css);
+@import url(./blocks/popup/_tooltip/popup__content_tooltip.css);
+@import url(./blocks/popup/__info-img/popup__info-img.css);
+@import url(./blocks/popup/__info-title/popup__info-title.css);
 
 
 /* 3.0 Sections css files */
 /*  SECTION: HEADER  */
 @import url(./blocks/section-header/section-header.css);
 @import url(./blocks/section-header/__logo/section-header__logo.css);
+@import url(./blocks/section-header/__service/section-header__service.css);
+@import url(./blocks/section-header/__info/section-header__info.css);
+@import url(./blocks/section-header/__link/section-header__link.css);
+@import url(./blocks/section-header/__logo-link/section-header__logo-link.css);
+@import url(./blocks/section-header/__link_shaded/section-header__link_shaded.css);
 
 /*   SECTION: USER INFO*/
 @import url(./blocks/section-user/section-user.css);
@@ -72,9 +80,18 @@
 @import url(./blocks/section-footer/section-footer.css);
 @import url(./blocks/section-footer/__copyright/section-footer__copyright.css);
 
+/*   SECTION: SIGN */
+@import url(./blocks/section-sign/section-sign.css);
+@import url(./blocks/section-sign/__form/section-sign__form.css);
+@import url(./blocks/section-sign/__input/section-sign__input.css);
+@import url(./blocks/section-sign/__link/section-sign__link.css);
+@import url(./blocks/section-sign/__paragraph/section-sign__paragraph.css);
+@import url(./blocks/section-sign/__submit/section-sign__submit.css);
+@import url(./blocks/section-sign/__title/section-sign__title.css);
 
+/*
 p{
   color: white;
-}
+} */
 
 /* *{outline: 1px dashed #a66;} */

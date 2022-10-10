@@ -1,10 +1,11 @@
 .root {
     /* color scheme */
 
-    /* ## base colors */    
+    /* ## base colors */
     --color-primary: #000;
     --coloron-primary: #fff;
     --coloron-primary-low: #545454;
+    --coloron-primary-low-bright: #ccc;
     --color-error: #FF0000;
     --color-overlay-500: rgba(0,0,0,.5);
     --color-overlay-900: rgba(0,0,0,.9);
@@ -13,7 +14,7 @@
     --hover-transition: all ease 500ms;
 
     background-color: var(--color-primary);
-    
+
     width: 100%;
     min-height: 100vh;
     margin: 0;
