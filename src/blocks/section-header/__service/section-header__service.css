@@ -4,7 +4,7 @@
   align-items: baseline;
 }
 
-@media screen and (max-width:425px) {
+@media screen and (max-width:555px) {
   .section-header__service{
     display: none;
   }

@@ -18,6 +18,8 @@
   line-height: 1.2;
 
   text-align: center;
+
+  cursor: pointer;
 }
 
 .section-sign__submit:hover{
