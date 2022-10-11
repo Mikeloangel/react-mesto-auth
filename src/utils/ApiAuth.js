@@ -58,7 +58,7 @@ export const checkToken = async (token) => {
   }
 
   const errorMessage = await parseErrorMessage(res);
-  return await Promise.reject(errorMessage);
+  return Promise.reject(errorMessage);
 }
 
 export const forgetToken = () => {

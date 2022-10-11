@@ -27,19 +27,16 @@ function Register({ onFail, onSuccess }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (mailInput.length > 0 && passwordInput.length > 0) {
-      setIsSubmittingForm(true);
-      apiAuth.register(mailInput, passwordInput)
-        .then(data => {
-          onSuccess(data);
-        })
-        .catch(data => {
-          onFail(data);
-        })
-        .finally(() => {
-          setIsSubmittingForm(false);
-        })
-    }
+
+    setIsSubmittingForm(true);
+    apiAuth.register(mailInput, passwordInput)
+      .then(data => {
+        onSuccess(data);
+      })
+      .catch(data => {
+        onFail(data);
+        setIsSubmittingForm(false);
+      })
   }
 
   return (

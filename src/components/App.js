@@ -62,18 +62,22 @@ function App() {
       });
 
     // retrieve currentUser
-    api.getUserMe()
-      .then(setCurrentUser)
-      .catch(err => api.handleError(err, setApiErrorMessage));
+    if (isLogged) {
+      api.getUserMe()
+        .then(setCurrentUser)
+        .catch(err => api.handleError(err, setApiErrorMessage));
+    }
   }, [history, isLogged]);
 
   //on CurrentUser changes retrieves initial cards
   React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then(setCards)
-      .catch(err => api.handleError(err, setApiErrorMessage));
-  }, [currentUser]);
+    if (isLogged) {
+      api
+        .getInitialCards()
+        .then(setCards)
+        .catch(err => api.handleError(err, setApiErrorMessage));
+    }
+  }, [currentUser, isLogged]);
 
   //handlers
   function handleEditAvatarClick() {
@@ -101,7 +105,7 @@ function App() {
     setSelecetdCardToDelete(null);
 
     setInfoMessage('');
-    setInfoType('hidden')
+    setInfoType('hidden');
   }
 
   function closeNotificationPopup() {

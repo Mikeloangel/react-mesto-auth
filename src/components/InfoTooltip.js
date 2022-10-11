@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 
 import btnClosePopup from '../images/btn-close.svg';
 
@@ -8,9 +9,17 @@ import btnClosePopup from '../images/btn-close.svg';
  * @param {Object} imgList {state:src} e.g {'fail',src} or {'done',src}
  * @param {String} type represents state from imgList
  * @param {Function} onClose
+ * @param {Boolean} autoClose
  * @returns JSX
  */
-function InfoToolTip({message , imgList, type = 'hidden', onClose }){
+function InfoToolTip({message , imgList, type = 'hidden', onClose, autoClose = true }){
+  //autoclose in 10s
+  useEffect(()=>{
+    if(type !== 'hidden' && autoClose){
+      setTimeout(onClose,10000);
+    }
+  },[type, autoClose, onClose])
+
   return (
     <div className={`popup popup_info ${type !== 'hidden' ? 'popup_opened' : ''}`}>
       <div className="popup__content popup__content_tooltip">
