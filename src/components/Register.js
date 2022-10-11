@@ -11,6 +11,8 @@ import * as apiAuth from '../utils/ApiAuth';
 function Register({ onFail, onSuccess }) {
   const { isLogged } = useContext(AppContext);
 
+  const [isSubmittingForm, setIsSubmittingForm] = useState(false)
+
   const [mailInput, setMailInput] = useState('');
   const [passwordInput, setPasswrodInput] = useState('');
 
@@ -26,6 +28,7 @@ function Register({ onFail, onSuccess }) {
   function handleSubmit(e) {
     e.preventDefault();
     if (mailInput.length > 0 && passwordInput.length > 0) {
+      setIsSubmittingForm(true);
       apiAuth.register(mailInput, passwordInput)
         .then(data => {
           onSuccess(data);
@@ -33,19 +36,24 @@ function Register({ onFail, onSuccess }) {
         .catch(data => {
           onFail(data);
         })
+        .finally(() => {
+          setIsSubmittingForm(false);
+        })
     }
   }
 
   return (
     <>
       {isLogged ?
-      <Redirect to="/" /> :
+        <Redirect to="/" /> :
         <section className="section section-sign">
           <h2 className="section-sign__title">Регистрация</h2>
           <form name="signup" className="section-sign__form" onSubmit={handleSubmit}>
             <input name="mail" type="email" required className="section-sign__input" placeholder="Email" value={mailInput} onChange={handleInputChange} />
             <input name="password" type="password" required className="section-sign__input" placeholder="Пароль" value={passwordInput} onChange={handleInputChange} />
-            <button type="submit" className="section-sign__submit">Зарегистрироваться</button>
+            <button type="submit" className="section-sign__submit" disabled={isSubmittingForm}>
+              {isSubmittingForm ? 'В процессе...' : 'Зарегистрироваться'}
+            </button>
           </form>
           <p className="section-sign__paragraph">
             Уже зарегистрированы? <Link to="/sign-in" className="section-sign__link">Войти</Link>
