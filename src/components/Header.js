@@ -5,7 +5,6 @@ import { AppContext } from '../contexts/AppContext';
 
 function Header() {
   const appState = useContext(AppContext);
-  // console.log(appState)
 
   return (
     <header className="section section-header">

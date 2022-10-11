@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 
-// import { currentUserContext } from '../contexts/currentUserContext';
 import { AppContext } from '../contexts/AppContext';
 
 import api from '../utils/Api';
@@ -11,6 +10,9 @@ import ProtectedRoute from './ProtectedRoute';
 
 import Register from "./Register";
 import Login from "./Login";
+import SignOut from './SignOut';
+
+import NotFound from './NotFound';
 
 import Header from './Header';
 import Main from './Main';
@@ -26,8 +28,6 @@ import InfoToolTip from './InfoTooltip';
 
 import imgSuccess from '../images/succeed.png';
 import imgFail from '../images/fail.png';
-import NotFound from './NotFound';
-import SignOut from './SignOut';
 
 function App() {
   //States
@@ -59,7 +59,6 @@ function App() {
       .then(userData => {
         setUserMail(userData.email);
         setIsLogged(true);
-        history.push('/');
       });
 
     // retrieve currentUser
@@ -205,66 +204,61 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{ isLogged , userMail, currentUser }}>
-      {/* <currentUserContext.Provider value={currentUser}> */}
-        <div className="root">
+    <AppContext.Provider value={{ isLogged, userMail, currentUser }}>
+      <div className="root">
 
-          <Header />
+        <Header />
 
-          <Switch>
-            <ProtectedRoute
-              exact
-              path={'/'}
-              component={Main}
-              isLogged={isLogged}
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              handleCardClick={handleCardClick}
-              cards={cards}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete} />
+        <Switch>
+          <ProtectedRoute
+            exact
+            path={'/'}
+            component={Main}
+            isLogged={isLogged}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            handleCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete} />
 
-            <Route exact path={'/sign-up'}>
-              <Register onFail={handleRegisterOnFail} onSuccess={handleRegisterOnSuccess} />
-            </Route>
+          <Route exact path={'/sign-up'}>
+            <Register onFail={handleRegisterOnFail} onSuccess={handleRegisterOnSuccess} />
+          </Route>
 
-            <Route exact path={'/sign-in'}>
-              <Login onFail={handleLoginOnFail} onSuccess={handleLoginOnSuccess} />
-            </Route>
+          <Route exact path={'/sign-in'}>
+            <Login onFail={handleLoginOnFail} onSuccess={handleLoginOnSuccess} />
+          </Route>
 
-            <Route exact path={'/sign-out'}>
-              <SignOut onSignOut={handleSignOut} />
-            </Route>
+          <Route exact path={'/sign-out'}>
+            <SignOut onSignOut={handleSignOut} />
+          </Route>
 
-            <Route path={'*'}>
-              <NotFound />
-            </Route>
+          <Route path={'*'}>
+            <NotFound />
+          </Route>
 
+        </Switch>
 
-          </Switch>
+        <Footer />
 
-          <Footer />
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
-          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddCard} />
 
-          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddCard} />
+        <DeleteConfirmationPopup onClose={closeAllPopups} callbackObject={selecetdCardToDelete} onSubmit={handleConfirmCardDelete} />
 
-          <DeleteConfirmationPopup onClose={closeAllPopups} callbackObject={selecetdCardToDelete} onSubmit={handleConfirmCardDelete} />
+        <ImagePopup card={selectedCard} name="viewplace" handleClose={closeAllPopups} />
 
-          <ImagePopup card={selectedCard} name="viewplace" handleClose={closeAllPopups} />
+        {/* Popup with notification, shows API errors */}
+        <PopupWithNotification onClose={closeNotificationPopup} message={apiErrorMessage} title="Ошибка в работе API" />
 
-          {/* Popup with notification, shows API errors */}
-          <PopupWithNotification onClose={closeNotificationPopup} message={apiErrorMessage} title="Ошибка в работе API" />
+        <InfoToolTip message={infoMessage} imgList={imgList} type={infoType} onClose={closeAllPopups} />
 
-
-          <InfoToolTip message={infoMessage} imgList={imgList} type={infoType} onClose={closeAllPopups} />
-
-
-        </div>
-      {/* </currentUserContext.Provider> */}
+      </div>
     </AppContext.Provider>
   );
 }

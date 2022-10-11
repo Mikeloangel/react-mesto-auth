@@ -1,12 +1,6 @@
+import parseErrorMessage from "./parseErrorMessage";
 
 export const BASE_URL = 'https://auth.nomoreparties.co';
-
-async function parseErrorMessage(responce, dataField = 'message'){
-  const isJSON = responce.headers.get('content-type')?.includes('application/json');
-  const data = isJSON ? await responce.json() : null;
-  const errorMessage = (data && data[dataField]) || responce.status;
-  return errorMessage;
-}
 
 export const register = async (email, password) => {
   const res = await fetch(`${BASE_URL}/signup`, {

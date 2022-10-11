@@ -1,10 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useState } from "react";
+import { useContext } from "react";
+
+import { AppContext } from '../contexts/AppContext';
+
 import updateFieldSetter from "../utils/updateFormFieldSetter";
 import * as apiAuth from '../utils/ApiAuth';
 
-function Register({onFail, onSuccess}) {
+function Register({ onFail, onSuccess }) {
+  const { isLogged } = useContext(AppContext);
+
   const [mailInput, setMailInput] = useState('');
   const [passwordInput, setPasswrodInput] = useState('');
 
@@ -31,17 +37,22 @@ function Register({onFail, onSuccess}) {
   }
 
   return (
-    <section className="section section-sign">
-      <h2 className="section-sign__title">Регистрация</h2>
-      <form name="signup" className="section-sign__form" onSubmit={handleSubmit}>
-        <input name="mail" type="email" required className="section-sign__input" placeholder="Email" value={mailInput} onChange={handleInputChange} />
-        <input name="password" type="password" required className="section-sign__input" placeholder="Пароль" value={passwordInput} onChange={handleInputChange} />
-        <button type="submit" className="section-sign__submit">Зарегистрироваться</button>
-      </form>
-      <p className="section-sign__paragraph">
-        Уже зарегистрированы? <Link to="/sign-in" className="section-sign__link">Войти</Link>
-      </p>
-    </section>
+    <>
+      {isLogged ?
+      <Redirect to="/" /> :
+        <section className="section section-sign">
+          <h2 className="section-sign__title">Регистрация</h2>
+          <form name="signup" className="section-sign__form" onSubmit={handleSubmit}>
+            <input name="mail" type="email" required className="section-sign__input" placeholder="Email" value={mailInput} onChange={handleInputChange} />
+            <input name="password" type="password" required className="section-sign__input" placeholder="Пароль" value={passwordInput} onChange={handleInputChange} />
+            <button type="submit" className="section-sign__submit">Зарегистрироваться</button>
+          </form>
+          <p className="section-sign__paragraph">
+            Уже зарегистрированы? <Link to="/sign-in" className="section-sign__link">Войти</Link>
+          </p>
+        </section>
+      }
+    </>
   );
 }
 

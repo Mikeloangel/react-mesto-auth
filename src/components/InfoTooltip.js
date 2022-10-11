@@ -2,7 +2,15 @@ import React from "react";
 
 import btnClosePopup from '../images/btn-close.svg';
 
-function InfoToolTip({message = null, imgList, type, onClose }){
+/**
+ * Shows Info popup with image
+ * @param {String} message text to display
+ * @param {Object} imgList {state:src} e.g {'fail',src} or {'done',src}
+ * @param {String} type represents state from imgList
+ * @param {Function} onClose
+ * @returns JSX
+ */
+function InfoToolTip({message , imgList, type = 'hidden', onClose }){
   return (
     <div className={`popup popup_info ${type !== 'hidden' ? 'popup_opened' : ''}`}>
       <div className="popup__content popup__content_tooltip">

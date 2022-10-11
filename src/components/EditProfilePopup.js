@@ -1,7 +1,6 @@
 import React from "react";
 import { useContext, useEffect, useState } from "react";
 
-// import { currentUserContext } from "../contexts/currentUserContext";
 import { AppContext } from '../contexts/AppContext';
 
 import PopupWithForm from "./PopupWithForm";
@@ -9,7 +8,6 @@ import updateFieldSetter from "../utils/updateFormFieldSetter";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   //Context
-  // const currentUser = useContext(currentUserContext)
   const { currentUser } = useContext(AppContext);
 
   //states

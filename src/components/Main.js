@@ -1,16 +1,15 @@
 import React from "react";
 
+import { AppContext } from '../contexts/AppContext';
+
 import defaultUserPic from '../images/upic-blanc.jpg';
 import btnEditUserPic from '../images/btn-edit-user.svg';
 import btnEditUserInfo from '../images/btn-edit.svg';
 
 import Card from './Card';
-// import { currentUserContext } from "../contexts/currentUserContext";
-import { AppContext } from '../contexts/AppContext';
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, handleCardClick, cards, onCardLike, onCardDelete }) {
   //Contexts
-  // const currentUser = React.useContext(currentUserContext);
   const { currentUser } = React.useContext(AppContext);
   const { name: userName = 'Still fetching...', avatar: userAvatar = defaultUserPic, about: userDescription = 'Still fetching...' } = currentUser;
 
