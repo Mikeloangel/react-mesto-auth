@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 
 import { currentUserContext } from '../contexts/currentUserContext';
 
@@ -41,7 +41,11 @@ function App() {
 
   const [isLogged, setIsLogged] = useState(true);
 
-  const imgList = {'succeed':imgSuccess, 'fail':imgFail};
+  const imgList = { 'succeed': imgSuccess, 'fail': imgFail };
+  const [infoType, setInfoType] = useState('hidden');
+  const [infoMessage, setInfoMessage] = useState('');
+
+  const history = useHistory();
 
   //On mount effects
   React.useEffect(() => {
@@ -120,6 +124,9 @@ function App() {
 
     setSelectedCard(null);
     setSelecetdCardToDelete(null);
+
+    setInfoMessage('');
+    setInfoType('hidden')
   }
 
   function closeNotificationPopup() {
@@ -192,6 +199,19 @@ function App() {
       });
   }
 
+  function handleRegisterOnFail(data) {
+    console.error(data);
+    setInfoMessage('Что-то пошло не так! Попробуйте ещё раз.');
+    setInfoType('fail');
+  }
+
+  function handleRegisterOnSucces(data) {
+    console.warn(data);
+    setInfoMessage('Вы успешно зарегистрировались!');
+    setInfoType('succeed');
+    history.push('/sign-in');
+  }
+
   return (
     <currentUserContext.Provider value={currentUser}>
       <div className="root">
@@ -212,22 +232,23 @@ function App() {
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete} />
 
-          <Route path={'/sign-up'}>
-            <Register />
+          <Route exact path={'/sign-up'}>
+            <Register onFail={handleRegisterOnFail} onSucces={handleRegisterOnSucces} />
           </Route>
 
-          <Route path={'/sign-in'}>
+          <Route exact path={'/sign-in'}>
             <Login />
           </Route>
 
-          <Route path={'/sign-out'}>
-            {apiAuth.forgetToken()}
+          <Route exact path={'/sign-out'}>
+            {/* {apiAuth.forgetToken()} */}
+            <Redirect to={'/'} />
           </Route>
-
 
           <Route path={'*'}>
-            <p>404 Resource not found</p>
+            <p className='section-sign__title'>404 Resource not found</p>
           </Route>
+
 
         </Switch>
 
@@ -247,7 +268,7 @@ function App() {
         <PopupWithNotification onClose={closeNotificationPopup} message={apiErrorMessage} title="Ошибка в работе API" />
 
 
-        {/* <InfoToolTip message={'Вы успешно зарегистрировались!'} imgList={imgList} type='succeed' isOpen={true}/> */}
+        <InfoToolTip message={infoMessage} imgList={imgList} type={infoType} onClose={closeAllPopups} />
         {/* <InfoToolTip message={'Что-то пошло не так!Попробуйте ещё раз.'} imgList={imgList} type='fail' isOpen={true}/> */}
 
       </div>

@@ -1,30 +1,25 @@
 
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
-export const register = (email, password) => {
-  return fetch(`${BASE_URL}/signup`, {
+export const register = async (email, password) => {
+  const res = await fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {
-      'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ password, email })
-  })
-    .then((response) => {
-      // console.log(response);
-      try {
-        if (response.status === 200) {
-          return response.json();
-        }
-      } catch (e) {
-        return (e)
-      }
-    })
-    .then((res) => {
-      // console.log(res)
-      return res;
-    })
-    .catch((err) => console.log(err));
+  });
+
+  if (res.status === 201) {
+    return res.json();
+  }
+
+   //getting proper error message from JSON response {'message':''}
+   const isJSON = res.headers.get('content-type')?.includes('application/json');
+   const data = isJSON ? await res.json() : null;
+   const error = (data && data.error) || res.status;
+
+   return Promise.reject(error);
 }
 
 export const authorization = (email, password) => {

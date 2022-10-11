@@ -2,9 +2,9 @@ import React from "react";
 
 import btnClosePopup from '../images/btn-close.svg';
 
-function InfoToolTip({message = null, imgList, type, onClose, isOpen }){
+function InfoToolTip({message = null, imgList, type, onClose }){
   return (
-    <div className={`popup popup_info ${isOpen ? 'popup_opened' : ''}`}>
+    <div className={`popup popup_info ${type !== 'hidden' ? 'popup_opened' : ''}`}>
       <div className="popup__content popup__content_tooltip">
         <button className="popup__btn-close" title="Закрыть окно" type="button">
           <img alt="Закрыть" className="popup__btn-close-img" src={btnClosePopup} onClick={onClose} />

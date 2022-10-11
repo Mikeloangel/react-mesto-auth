@@ -31,8 +31,6 @@ function Header() {
             </Route>
           </Switch>
         )}
-
-
       </div>
     </header>
   );
