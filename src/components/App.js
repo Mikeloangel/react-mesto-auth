@@ -3,7 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 
 import { currentUserContext } from '../contexts/currentUserContext';
 
-import api from "../utils/Api";
+import api from '../utils/Api';
+import * as apiAuth from '../utils/ApiAuth'
 
 import ProtectedRoute from './ProtectedRoute';
 
@@ -39,24 +40,60 @@ function App() {
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
 
   const [isLogged, setIsLogged] = useState(true);
-  // const [isLogged, setIsLogged] = useState(false);
 
   const imgList = {'succeed':imgSuccess, 'fail':imgFail};
 
   //On mount effects
   React.useEffect(() => {
+    // apiAuth.register('tapi1@yandex.ru','qwerty')
+    // .then(res=>{
+    //   console.log(res)
+    // })
+    // .catch(e => {
+    //   console.log(e)
+    // });
+
+    // apiAuth.authorization('mai13l1@gm.co','qazewq');
+
+    // const token = localStorage.getItem('token');
+    // if(!token){
+    //   console.log('token missed');
+
+    //   return;
+    // }else{
+    //   apiAuth.checkToken(token)
+    //   .then(data => {
+    //     console.log('data')
+    //     console.log(data)
+    //     setIsLogged(true);
+    //   })
+    //   .catch(e => {
+    //     console.log('err')
+    //     console.log(e)
+    //   })
+    // }
+
+    // .then(res =>{
+    //   console.log(res)
+    //   setIsLogged(true);
+    // })
+    // .catch(e =>{
+    //   console.log(e);
+    //   setIsLogged(false);
+    // })
+
     //retrieve currentUser
     api.getUserMe()
       .then(setCurrentUser)
       .catch(err => api.handleError(err, setApiErrorMessage));
-  }, [])
+  }, []);
 
   //on CurrentUser changes retrieves initial cards
   React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then(setCards)
-      .catch(err => api.handleError(err, setApiErrorMessage));
+    // api
+    //   .getInitialCards()
+    //   .then(setCards)
+    //   .catch(err => api.handleError(err, setApiErrorMessage));
   }, [currentUser]);
 
   //handlers
@@ -181,6 +218,10 @@ function App() {
 
           <Route path={'/sign-in'}>
             <Login />
+          </Route>
+
+          <Route path={'/sign-out'}>
+            {apiAuth.forgetToken()}
           </Route>
 
 

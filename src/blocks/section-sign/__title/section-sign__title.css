@@ -11,5 +11,11 @@
   text-align: center;
 
   color: var(--color);
+}
 
+@media screen and (max-width:425px) {
+  .section-sign__title {
+    font-size: 20px;
+    padding: 0 0 40px 0;
+  }
 }

@@ -3,3 +3,9 @@
   gap: 24px;
   align-items: baseline;
 }
+
+@media screen and (max-width:425px) {
+  .section-header__service{
+    display: none;
+  }
+}

@@ -21,6 +21,7 @@
   .section-header {
     padding-top: 28px;
     padding-bottom: 32px;
+    padding-right: 28px;
     width: 100%;
   }
 }

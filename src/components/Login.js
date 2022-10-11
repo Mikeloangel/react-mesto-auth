@@ -1,6 +1,9 @@
 import React from "react";
 import { useState } from "react";
+
 import updateFieldSetter from "../utils/updateFormFieldSetter";
+
+import * as apiAuth from "../utils/ApiAuth";
 
 
 function Login(props) {
@@ -18,6 +21,11 @@ function Login(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    apiAuth.authorization(mailInput, passwordInput)
+    .then(data => {
+      // console.log(data);
+    })
   }
 
   return (
