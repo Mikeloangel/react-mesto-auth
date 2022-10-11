@@ -5,7 +5,9 @@
 
 /* 2.0 Common blocks css files */
 @import url(./blocks/root/root.css);
+
 @import url(./blocks/section/section.css);
+@import url(./blocks/section/__title/section__title.css);
 
 @import url(./blocks/btn-edit/btn-edit.css);
 @import url(./blocks/btn-edit/__img/btn-edit__img.css);

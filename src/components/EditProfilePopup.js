@@ -1,14 +1,16 @@
 import React from "react";
 import { useContext, useEffect, useState } from "react";
 
-import { currentUserContext } from "../contexts/currentUserContext";
+// import { currentUserContext } from "../contexts/currentUserContext";
+import { AppContext } from '../contexts/AppContext';
 
 import PopupWithForm from "./PopupWithForm";
 import updateFieldSetter from "../utils/updateFormFieldSetter";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   //Context
-  const currentUser = useContext(currentUserContext)
+  // const currentUser = useContext(currentUserContext)
+  const { currentUser } = useContext(AppContext);
 
   //states
   const [formErrorMessages, setFormErrorMessages] = useState({});
@@ -24,9 +26,9 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   //effects
   //updates form inputs on open and on current user changes
   useEffect(() => {
-      setName(currentUser.name || '');
-      setDescription(currentUser.about || '');
-      setFormErrorMessages({'popup__user-name': '', 'popup__user-description':''})
+    setName(currentUser.name || '');
+    setDescription(currentUser.about || '');
+    setFormErrorMessages({ 'popup__user-name': '', 'popup__user-description': '' })
   }, [isOpen, currentUser]);
 
   //handlers
@@ -38,7 +40,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     onUpdateUser({ name, about: description }, submitButtonOnUpdate);
   }
 
-  function handleErrorMessage(inputs){
+  function handleErrorMessage(inputs) {
     setFormErrorMessages(inputs)
   }
 
@@ -52,8 +54,8 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       onClose={onClose}
       onSubmit={handleSubmit}
       handleFormErrorMessages={handleErrorMessage}
-      isValidByDefault = {true}
-      >
+      isValidByDefault={true}
+    >
       <label className="popup__form-field">
         <input className="popup__form-input popup__user-name" id="name-input" name="popup__user-name"
           placeholder="Представься, путешественник" required minLength="2" maxLength="40" onChange={handleChange} value={name} />

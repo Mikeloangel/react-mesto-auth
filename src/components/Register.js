@@ -4,7 +4,7 @@ import { useState } from "react";
 import updateFieldSetter from "../utils/updateFormFieldSetter";
 import * as apiAuth from '../utils/ApiAuth';
 
-function Register({onFail, onSucces}) {
+function Register({onFail, onSuccess}) {
   const [mailInput, setMailInput] = useState('');
   const [passwordInput, setPasswrodInput] = useState('');
 
@@ -22,7 +22,7 @@ function Register({onFail, onSucces}) {
     if (mailInput.length > 0 && passwordInput.length > 0) {
       apiAuth.register(mailInput, passwordInput)
         .then(data => {
-          onSucces(data);
+          onSuccess(data);
         })
         .catch(data => {
           onFail(data);

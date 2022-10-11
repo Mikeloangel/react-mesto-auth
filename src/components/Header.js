@@ -1,14 +1,11 @@
 import React from "react";
 import { useContext } from "react";
-import { Link, Route, Switch, useLocation } from "react-router-dom";
-
-import { currentUserContext } from "../contexts/currentUserContext";
+import { Link, Route, Switch } from "react-router-dom";
+import { AppContext } from '../contexts/AppContext';
 
 function Header() {
-  const currentUser = useContext(currentUserContext);
-  const { pathname } = useLocation();
-
-  const loggedIn = true;
+  const appState = useContext(AppContext);
+  // console.log(appState)
 
   return (
     <header className="section section-header">
@@ -16,9 +13,9 @@ function Header() {
         <div className="section-header__logo"></div>
       </Link>
       <div className="section-header__service">
-        {loggedIn ? (
+        {appState.isLogged ? (
           <>
-            <p className="section-header__info">mail@mail.ru</p>
+            <p className="section-header__info">{appState.userMail}</p>
             <Link to={'/sign-out'} className="section-header__link section-header__link_shaded">Выйти</Link>
           </>
         ) : (

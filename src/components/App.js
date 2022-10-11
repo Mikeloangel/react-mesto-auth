@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 
-import { currentUserContext } from '../contexts/currentUserContext';
+// import { currentUserContext } from '../contexts/currentUserContext';
+import { AppContext } from '../contexts/AppContext';
 
 import api from '../utils/Api';
 import * as apiAuth from '../utils/ApiAuth'
@@ -25,6 +26,8 @@ import InfoToolTip from './InfoTooltip';
 
 import imgSuccess from '../images/succeed.png';
 import imgFail from '../images/fail.png';
+import NotFound from './NotFound';
+import SignOut from './SignOut';
 
 function App() {
   //States
@@ -36,10 +39,11 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [selecetdCardToDelete, setSelecetdCardToDelete] = useState(null);
 
-  const [currentUser, setCurrentUser] = useState({});
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
 
-  const [isLogged, setIsLogged] = useState(true);
+  const [currentUser, setCurrentUser] = useState({});
+  const [userMail, setUserMail] = useState('');
+  const [isLogged, setIsLogged] = useState(false);
 
   const imgList = { 'succeed': imgSuccess, 'fail': imgFail };
   const [infoType, setInfoType] = useState('hidden');
@@ -49,55 +53,27 @@ function App() {
 
   //On mount effects
   React.useEffect(() => {
-    // apiAuth.register('tapi1@yandex.ru','qwerty')
-    // .then(res=>{
-    //   console.log(res)
-    // })
-    // .catch(e => {
-    //   console.log(e)
-    // });
+    //check token
+    const token = localStorage.getItem('token');
+    apiAuth.checkToken(token)
+      .then(userData => {
+        setUserMail(userData.email);
+        setIsLogged(true);
+        history.push('/');
+      });
 
-    // apiAuth.authorization('mai13l1@gm.co','qazewq');
-
-    // const token = localStorage.getItem('token');
-    // if(!token){
-    //   console.log('token missed');
-
-    //   return;
-    // }else{
-    //   apiAuth.checkToken(token)
-    //   .then(data => {
-    //     console.log('data')
-    //     console.log(data)
-    //     setIsLogged(true);
-    //   })
-    //   .catch(e => {
-    //     console.log('err')
-    //     console.log(e)
-    //   })
-    // }
-
-    // .then(res =>{
-    //   console.log(res)
-    //   setIsLogged(true);
-    // })
-    // .catch(e =>{
-    //   console.log(e);
-    //   setIsLogged(false);
-    // })
-
-    //retrieve currentUser
+    // retrieve currentUser
     api.getUserMe()
       .then(setCurrentUser)
       .catch(err => api.handleError(err, setApiErrorMessage));
-  }, []);
+  }, [history, isLogged]);
 
   //on CurrentUser changes retrieves initial cards
   React.useEffect(() => {
-    // api
-    //   .getInitialCards()
-    //   .then(setCards)
-    //   .catch(err => api.handleError(err, setApiErrorMessage));
+    api
+      .getInitialCards()
+      .then(setCards)
+      .catch(err => api.handleError(err, setApiErrorMessage));
   }, [currentUser]);
 
   //handlers
@@ -199,80 +175,97 @@ function App() {
       });
   }
 
+  function handleSignOut() {
+    setIsLogged(false);
+    setUserMail('');
+  }
+
   function handleRegisterOnFail(data) {
     console.error(data);
     setInfoMessage('Что-то пошло не так! Попробуйте ещё раз.');
     setInfoType('fail');
   }
 
-  function handleRegisterOnSucces(data) {
+  function handleRegisterOnSuccess(data) {
     console.warn(data);
     setInfoMessage('Вы успешно зарегистрировались!');
     setInfoType('succeed');
     history.push('/sign-in');
   }
 
+  function handleLoginOnFail(errMsg) {
+    console.error(errMsg);
+    setInfoMessage('Неверный логин или пароль!');
+    setInfoType('fail');
+  }
+
+  function handleLoginOnSuccess(token) {
+    setIsLogged(true);
+    history.push('/');
+  }
+
   return (
-    <currentUserContext.Provider value={currentUser}>
-      <div className="root">
+    <AppContext.Provider value={{ isLogged , userMail, currentUser }}>
+      {/* <currentUserContext.Provider value={currentUser}> */}
+        <div className="root">
 
-        <Header />
+          <Header />
 
-        <Switch>
-          <ProtectedRoute
-            exact
-            path={'/'}
-            component={Main}
-            isLogged={isLogged}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            handleCardClick={handleCardClick}
-            cards={cards}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete} />
+          <Switch>
+            <ProtectedRoute
+              exact
+              path={'/'}
+              component={Main}
+              isLogged={isLogged}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              handleCardClick={handleCardClick}
+              cards={cards}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete} />
 
-          <Route exact path={'/sign-up'}>
-            <Register onFail={handleRegisterOnFail} onSucces={handleRegisterOnSucces} />
-          </Route>
+            <Route exact path={'/sign-up'}>
+              <Register onFail={handleRegisterOnFail} onSuccess={handleRegisterOnSuccess} />
+            </Route>
 
-          <Route exact path={'/sign-in'}>
-            <Login />
-          </Route>
+            <Route exact path={'/sign-in'}>
+              <Login onFail={handleLoginOnFail} onSuccess={handleLoginOnSuccess} />
+            </Route>
 
-          <Route exact path={'/sign-out'}>
-            {/* {apiAuth.forgetToken()} */}
-            <Redirect to={'/'} />
-          </Route>
+            <Route exact path={'/sign-out'}>
+              <SignOut onSignOut={handleSignOut} />
+            </Route>
 
-          <Route path={'*'}>
-            <p className='section-sign__title'>404 Resource not found</p>
-          </Route>
-
-
-        </Switch>
-
-        <Footer />
-
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
-
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddCard} />
-
-        <DeleteConfirmationPopup onClose={closeAllPopups} callbackObject={selecetdCardToDelete} onSubmit={handleConfirmCardDelete} />
-
-        <ImagePopup card={selectedCard} name="viewplace" handleClose={closeAllPopups} />
-
-        {/* Popup with notification, shows API errors */}
-        <PopupWithNotification onClose={closeNotificationPopup} message={apiErrorMessage} title="Ошибка в работе API" />
+            <Route path={'*'}>
+              <NotFound />
+            </Route>
 
 
-        <InfoToolTip message={infoMessage} imgList={imgList} type={infoType} onClose={closeAllPopups} />
-        {/* <InfoToolTip message={'Что-то пошло не так!Попробуйте ещё раз.'} imgList={imgList} type='fail' isOpen={true}/> */}
+          </Switch>
 
-      </div>
-    </currentUserContext.Provider>
+          <Footer />
+
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+
+          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+
+          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddCard={handleAddCard} />
+
+          <DeleteConfirmationPopup onClose={closeAllPopups} callbackObject={selecetdCardToDelete} onSubmit={handleConfirmCardDelete} />
+
+          <ImagePopup card={selectedCard} name="viewplace" handleClose={closeAllPopups} />
+
+          {/* Popup with notification, shows API errors */}
+          <PopupWithNotification onClose={closeNotificationPopup} message={apiErrorMessage} title="Ошибка в работе API" />
+
+
+          <InfoToolTip message={infoMessage} imgList={imgList} type={infoType} onClose={closeAllPopups} />
+
+
+        </div>
+      {/* </currentUserContext.Provider> */}
+    </AppContext.Provider>
   );
 }
 

@@ -5,12 +5,14 @@ import btnEditUserPic from '../images/btn-edit-user.svg';
 import btnEditUserInfo from '../images/btn-edit.svg';
 
 import Card from './Card';
-import { currentUserContext } from "../contexts/currentUserContext";
+// import { currentUserContext } from "../contexts/currentUserContext";
+import { AppContext } from '../contexts/AppContext';
 
-function Main({onEditProfile, onAddPlace, onEditAvatar, handleCardClick, cards, onCardLike, onCardDelete}) {
+function Main({ onEditProfile, onAddPlace, onEditAvatar, handleCardClick, cards, onCardLike, onCardDelete }) {
   //Contexts
-  const currentUser = React.useContext(currentUserContext);
-  const { name: userName = 'Still fetching...', avatar: userAvatar = defaultUserPic, about: userDescription = 'Still fetching...' } = currentUser ;
+  // const currentUser = React.useContext(currentUserContext);
+  const { currentUser } = React.useContext(AppContext);
+  const { name: userName = 'Still fetching...', avatar: userAvatar = defaultUserPic, about: userDescription = 'Still fetching...' } = currentUser;
 
   return (
     <main className="main">
@@ -37,7 +39,7 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, handleCardClick, cards, 
 
       <section aria-label="Фотографии из путешествий!" className="section section-gallery">
         <ul className="section-gallery__grid">
-          {cards.map(card => (<Card card={card} key={card._id} onCardClick={handleCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete}/>))}
+          {cards.map(card => (<Card card={card} key={card._id} onCardClick={handleCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete} />))}
         </ul>
       </section>
     </main>

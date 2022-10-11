@@ -6,7 +6,7 @@ import updateFieldSetter from "../utils/updateFormFieldSetter";
 import * as apiAuth from "../utils/ApiAuth";
 
 
-function Login(props) {
+function Login({onFail, onSuccess}) {
   const [mailInput, setMailInput] = useState('');
   const [passwordInput, setPasswrodInput] = useState('');
 
@@ -23,8 +23,12 @@ function Login(props) {
     e.preventDefault();
 
     apiAuth.authorization(mailInput, passwordInput)
-    .then(data => {
-      // console.log(data);
+    .then(token =>{
+      onSuccess(token);
+    })
+    .catch(errorMsg =>{
+      onFail(errorMsg);
+      console.log(errorMsg);
     })
   }
 

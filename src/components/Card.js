@@ -1,9 +1,11 @@
 import React from "react";
-import { currentUserContext } from "../contexts/currentUserContext";
+// import { currentUserContext } from "../contexts/currentUserContext";
+import { AppContext } from '../contexts/AppContext';
 
 function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   //Context
-  const currentUser = React.useContext(currentUserContext);
+  // const currentUser = React.useContext(currentUserContext);
+  const {currentUser} = React.useContext(AppContext);
 
   const isOwn = card.owner._id === currentUser?._id;
   const isLIked = React.useMemo(() => card.likes.some(l => l._id === currentUser._id),[card.likes, currentUser]);

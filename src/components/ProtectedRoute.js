@@ -14,20 +14,3 @@ function ProtectedRoute({ component: Component, ...props }) {
 }
 
 export default ProtectedRoute;
-
-// //
-// <Route exact path={'/'}>
-// {isLogged ?
-//   (<>
-//     <Main
-//       onEditProfile={handleEditProfileClick}
-//       onAddPlace={handleAddPlaceClick}
-//       onEditAvatar={handleEditAvatarClick}
-//       handleCardClick={handleCardClick}
-//       cards={cards}
-//       onCardLike={handleCardLike}
-//       onCardDelete={handleCardDelete}
-//     />
-//   </>)
-//   : <Redirect to={'/sign-in'} />}
-// </Route>
