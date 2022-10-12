@@ -51,18 +51,17 @@
 /* 3.0 Sections css files */
 /*  SECTION: HEADER  */
 @import url(./blocks/section-header/section-header.css);
-@import url(./blocks/section-header/__logo/section-header__logo.css);
-@import url(./blocks/section-header/__service/section-header__service.css);
-@import url(./blocks/section-header/__info/section-header__info.css);
-@import url(./blocks/section-header/__link/section-header__link.css);
-@import url(./blocks/section-header/__logo-link/section-header__logo-link.css);
-@import url(./blocks/section-header/__link_shaded/section-header__link_shaded.css);
-
-@import url(./blocks/section-header/__nav/section-header__nav.css);
 @import url(./blocks/section-header/__bar/section-header__bar.css);
+@import url(./blocks/section-header/__logo/section-header__logo.css);
+@import url(./blocks/section-header/__logo-link/section-header__logo-link.css);
 @import url(./blocks/section-header/__burger/section-header__burger.css);
 @import url(./blocks/section-header/__burger-stripe/section-header__burger-stripe.css);
+@import url(./blocks/section-header/__service/section-header__service.css);
 @import url(./blocks/section-header/__service/_open/section-header__service_open.css);
+@import url(./blocks/section-header/__nav/section-header__nav.css);
+@import url(./blocks/section-header/__info/section-header__info.css);
+@import url(./blocks/section-header/__link/section-header__link.css);
+@import url(./blocks/section-header/__link_shaded/section-header__link_shaded.css);
 
 /*   SECTION: USER INFO*/
 @import url(./blocks/section-user/section-user.css);

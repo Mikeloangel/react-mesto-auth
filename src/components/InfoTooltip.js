@@ -7,7 +7,7 @@ import btnClosePopup from '../images/btn-close.svg';
  * Shows Info popup with image
  * @param {String} message text to display
  * @param {Object} imgList {state:src} e.g {'fail',src} or {'done',src}
- * @param {String} type represents state from imgList
+ * @param {String} type represents state from imgList, 'hidden' will trigger closure
  * @param {Function} onClose
  * @param {Boolean} autoClose
  * @returns JSX

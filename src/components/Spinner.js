@@ -2,7 +2,7 @@ import React from "react";
 
 import imgSpinner from '../images/spinner.png';
 
-function Spinner(){
+function Spinner() {
   return (
     <section className="section section-spinner">
       <h2 className="section__title">Загружаем...</h2>

@@ -40,7 +40,6 @@
 
 @media screen and (max-width: 425px) {
   .section-header {
-    /* width: calc(100% - 38px); */
     width: 100%;
   }
 }

@@ -15,7 +15,7 @@ export const register = async (email, password) => {
     return res.json();
   }
 
-  const errorMessage = await parseErrorMessage(res,'error');
+  const errorMessage = await parseErrorMessage(res, 'error');
   return Promise.reject(errorMessage);
 }
 
@@ -32,7 +32,7 @@ export const authorization = async (email, password) => {
   if (res.status === 200) {
     const data = await res.json();
 
-    localStorage.setItem('token',data.token);
+    localStorage.setItem('token', data.token);
     return data.token;
   }
 

@@ -12,6 +12,7 @@ import Register from "./Register";
 import Login from "./Login";
 import SignOut from './SignOut';
 
+import Spinner from './Spinner';
 import NotFound from './NotFound';
 
 import Header from './Header';
@@ -28,7 +29,6 @@ import InfoToolTip from './InfoTooltip';
 
 import imgSuccess from '../images/succeed.png';
 import imgFail from '../images/fail.png';
-import Spinner from './Spinner';
 
 function App() {
   //States

@@ -17,7 +17,7 @@ function Header() {
         <Link to={'/'} className="section-header__logo-link">
           <div className="section-header__logo"></div>
         </Link>
-        <div className={`section-header__burger ${isMenuOpen && 'section-header__burger_open'}`}  onClick={handleToggleMenu} >
+        <div className={`section-header__burger ${isMenuOpen && 'section-header__burger_open'}`} onClick={handleToggleMenu} >
           <div className="section-header__burger-stripe"></div>
         </div>
       </div>
