@@ -92,4 +92,106 @@
 @import url(./blocks/section-sign/__title/section-sign__title.css);
 
 
-/* *{outline: 1px dashed #a66;} */
+/* SECTION: Spinner */
+@import url(./blocks/section-spinner/section-spinner.css);
+@import url(./blocks/section-spinner/__image/section-spinner__image.css);
+
+/* * {outline: 1px dashed #a66;} */
+
+.section-header__nav {
+  display: flex;
+  gap: 24px;
+  align-items: baseline;
+}
+
+.section-header__bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.section-header__burger {
+  width: 35px;
+  height: 35px;
+  position: relative;
+
+  cursor: pointer;
+
+  visibility: hidden;
+}
+
+.section-header__burger-stripe,
+.section-header__burger-stripe::after,
+.section-header__burger-stripe::before {
+  --color: var(--coloron-primary, #fff);
+  --transition: var(--hover-transition);
+
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--color);
+
+  transition: var(--transition);
+}
+
+.section-header__burger-stripe::after {
+  content: '';
+  top: 12px;
+}
+
+.section-header__burger-stripe::before {
+  content: '';
+  top: 24px;
+}
+
+.section-header__burger_open .section-header__burger-stripe {
+  transform: rotate(45deg) translate(7px, 9px);
+}
+
+.section-header__burger_open .section-header__burger-stripe::after {
+  transform: rotate(-90deg) translate(12px, 1px)
+}
+
+.section-header__burger_open .section-header__burger-stripe::before {
+  transform: scaleX(0) translate(0px, -24px) rotate(-45deg);
+}
+
+@media screen and (max-width:555px) {
+  .section-header {
+    flex-direction: column-reverse;
+  }
+
+  .section-header__service {
+    --border-color: var(--coloron-primary-low);
+
+    width: 100%;
+    border-bottom: 1px solid var(--border-color);
+    padding: 40px 0;
+
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section-header__burger {
+    visibility: visible;
+  }
+
+  .section-header__nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .section-header__service {
+    margin-top: -1000px;
+    transition: all 600ms ease-in-out;
+  }
+
+  .section-header__service_open {
+    margin-top: 0;
+  }
+}

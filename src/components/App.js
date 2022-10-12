@@ -28,6 +28,7 @@ import InfoToolTip from './InfoTooltip';
 
 import imgSuccess from '../images/succeed.png';
 import imgFail from '../images/fail.png';
+import Spinner from './Spinner';
 
 function App() {
   //States
@@ -49,9 +50,12 @@ function App() {
   const [infoType, setInfoType] = useState('hidden');
   const [infoMessage, setInfoMessage] = useState('');
 
+  //Shows spinner until apiAuth requests are fullfiled
+  const [isAppReady, setIsAppReady] = useState(false);
+
   const history = useHistory();
 
-  //On mount effects
+  //checks token
   React.useEffect(() => {
     //check token
     const token = localStorage.getItem('token');
@@ -59,6 +63,9 @@ function App() {
       .then(userData => {
         setUserMail(userData.email);
         setIsLogged(true);
+      })
+      .finally(() => {
+        setIsAppReady(true);
       });
 
     // retrieve currentUser
@@ -67,6 +74,7 @@ function App() {
         .then(setCurrentUser)
         .catch(err => api.handleError(err, setApiErrorMessage));
     }
+
   }, [history, isLogged]);
 
   //on CurrentUser changes retrieves initial cards
@@ -213,39 +221,45 @@ function App() {
 
         <Header />
 
-        <Switch>
-          <ProtectedRoute
-            exact
-            path={'/'}
-            component={Main}
-            isLogged={isLogged}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            handleCardClick={handleCardClick}
-            cards={cards}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete} />
+        {!isAppReady ?
+          <Spinner /> :
 
-          <Route exact path={'/sign-up'}>
-            <Register onFail={handleRegisterOnFail} onSuccess={handleRegisterOnSuccess} />
-          </Route>
+          <Switch>
+            <ProtectedRoute
+              exact
+              path={'/'}
+              component={Main}
+              isLogged={isLogged}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              handleCardClick={handleCardClick}
+              cards={cards}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete} />
 
-          <Route exact path={'/sign-in'}>
-            <Login onFail={handleLoginOnFail} onSuccess={handleLoginOnSuccess} />
-          </Route>
+            <Route exact path={'/sign-up'}>
+              <Register onFail={handleRegisterOnFail} onSuccess={handleRegisterOnSuccess} />
+            </Route>
 
-          <Route exact path={'/sign-out'}>
-            <SignOut onSignOut={handleSignOut} />
-          </Route>
+            <Route exact path={'/sign-in'}>
+              <Login onFail={handleLoginOnFail} onSuccess={handleLoginOnSuccess} />
+            </Route>
 
-          <Route path={'*'}>
-            <NotFound />
-          </Route>
+            <Route exact path={'/sign-out'}>
+              <SignOut onSignOut={handleSignOut} />
+            </Route>
 
-        </Switch>
+            <Route path={'*'}>
+              <NotFound />
+            </Route>
+
+          </Switch>
+        } {/* isAppReady end */}
 
         <Footer />
+
+        {/* Popups */}
 
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
