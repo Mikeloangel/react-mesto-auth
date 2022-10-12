@@ -12,7 +12,7 @@ function Header() {
   const handleMenuClose = () => setIsMenuOpen(false);
 
   return (
-    <header className="section section-header" onMouseLeave={handleMenuClose}>
+    <header className="section-header" onMouseLeave={handleMenuClose}>
       <div className="section-header__bar">
         <Link to={'/'} className="section-header__logo-link">
           <div className="section-header__logo"></div>

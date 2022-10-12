@@ -1,0 +1,11 @@
+.section-header__bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media screen and (max-width:555px) {
+  .section-header__bar{
+    padding: 10px 0 0 0;
+  }
+}
