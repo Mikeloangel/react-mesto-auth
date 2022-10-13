@@ -211,6 +211,7 @@ function App() {
   }
 
   function handleLoginOnSuccess(token) {
+    localStorage.setItem('token', token);
     setIsLogged(true);
     history.push('/');
   }

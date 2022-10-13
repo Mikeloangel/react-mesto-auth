@@ -2,11 +2,16 @@ import parseErrorMessage from "./parseErrorMessage";
 
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
+/**
+ * Makes fetch request to API
+ * @param {String} endpoint AuthAPI endpoint
+ * @param {String} method
+ * @param {Object} body
+ * @param {Object} headers
+ * @returns {Promise}
+ */
 const fetchAuthApi = async (endpoint, method, body = null, headers = { 'Content-Type': 'application/json' }) => {
-  const config = {
-    method,
-    headers
-  };
+  const config = {method, headers};
 
   if (body) {
     config.body = JSON.stringify(body);
@@ -14,6 +19,7 @@ const fetchAuthApi = async (endpoint, method, body = null, headers = { 'Content-
 
   return await fetch(`${BASE_URL}/${endpoint}`, config);
 }
+
 
 export const register = async (email, password) => {
   const res = await fetchAuthApi('signup', 'post', { password, email });
@@ -31,12 +37,10 @@ export const authorization = async (email, password) => {
 
   if (res.status === 200) {
     const data = await res.json();
-
-    localStorage.setItem('token', data.token);
     return data.token;
   }
 
-  const errorMessage = await parseErrorMessage(res);
+  const errorMessage = await parseErrorMessage(res, 'message');
   return Promise.reject(errorMessage);
 }
 
@@ -52,7 +56,7 @@ export const checkToken = async (token) => {
     return userData.data;
   }
 
-  const errorMessage = await parseErrorMessage(res);
+  const errorMessage = await parseErrorMessage(res, 'message');
   return Promise.reject(errorMessage);
 }
 
