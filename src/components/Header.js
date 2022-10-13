@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
-import { Link, Route, Switch } from "react-router-dom";
+import { Link, Route, Switch, useLocation } from "react-router-dom";
 import { AppContext } from '../contexts/AppContext';
 
-function Header({onSignOut}) {
+function Header({ onSignOut }) {
   const appState = useContext(AppContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleToggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const handleMenuClose = () => setIsMenuOpen(false);
+
+  const location = useLocation();
+
+  useEffect(()=>{
+    handleMenuClose();
+  },[location.pathname]);
 
   return (
     <header className="section-header">
