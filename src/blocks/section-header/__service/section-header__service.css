@@ -11,5 +11,7 @@
 
     margin-top: -1000px;
     transition: all 600ms ease-in-out;
+
+    z-index: 12;
   }
 }

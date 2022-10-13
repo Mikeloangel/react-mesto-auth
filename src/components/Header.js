@@ -12,7 +12,9 @@ function Header({onSignOut}) {
   const handleMenuClose = () => setIsMenuOpen(false);
 
   return (
-    <header className="section-header" onMouseLeave={handleMenuClose}>
+    <header className="section-header">
+      <div className={`section-header__mobile-overlay ${isMenuOpen && 'section-header__mobile-overlay_visible'}`} onClick={handleMenuClose}></div>
+
       <div className="section-header__bar">
         <Link to={'/'} className="section-header__logo-link">
           <div className="section-header__logo"></div>

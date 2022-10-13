@@ -51,6 +51,8 @@
 /* 3.0 Sections css files */
 /*  SECTION: HEADER  */
 @import url(./blocks/section-header/section-header.css);
+@import url(./blocks/section-header/__mobile-overlay/section-header__mobile-overlay.css);
+@import url(./blocks/section-header/__mobile-overlay/_visible/section-header__mobile-overlay_visible.css);
 @import url(./blocks/section-header/__bar/section-header__bar.css);
 @import url(./blocks/section-header/__logo/section-header__logo.css);
 @import url(./blocks/section-header/__logo-link/section-header__logo-link.css);

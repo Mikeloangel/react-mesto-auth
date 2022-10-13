@@ -17,4 +17,6 @@
     opacity: 0;
 
     transition: visibility 200ms, opacity 200ms linear;
+
+    z-index: 11;
 }
