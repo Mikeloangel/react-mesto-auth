@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { Link, Route, Switch } from "react-router-dom";
 import { AppContext } from '../contexts/AppContext';
 
-function Header() {
+function Header({onSignOut}) {
   const appState = useContext(AppContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -27,7 +27,8 @@ function Header() {
           {appState.isLogged ? (
             <>
               <p className="section-header__info">{appState.userMail}</p>
-              <Link to={'/sign-out'} className="section-header__link section-header__link_shaded">Выйти</Link>
+              {/* <Link to={'/sign-out'} className="section-header__link section-header__link_shaded">Выйти</Link> */}
+              <Link to={'#'} onClick={onSignOut} className="section-header__link section-header__link_shaded">Выйти</Link>
             </>
           ) : (
             <Switch>

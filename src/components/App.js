@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 
 import { AppContext } from '../contexts/AppContext';
@@ -56,13 +56,16 @@ function App() {
   const history = useHistory();
 
   //checks token
-  React.useEffect(() => {
+  useEffect(() => {
     //check token
     const token = localStorage.getItem('token');
     apiAuth.checkToken(token)
       .then(userData => {
         setUserMail(userData.email);
         setIsLogged(true);
+      })
+      .catch(() => {
+        history.push('/sign-in')
       })
       .finally(() => {
         setIsAppReady(true);
@@ -78,7 +81,7 @@ function App() {
   }, [history, isLogged]);
 
   //on CurrentUser changes retrieves initial cards
-  React.useEffect(() => {
+  useEffect(() => {
     if (isLogged) {
       api
         .getInitialCards()
@@ -187,6 +190,7 @@ function App() {
   }
 
   function handleSignOut() {
+    apiAuth.forgetToken();
     setIsLogged(false);
     setUserMail('');
   }
@@ -220,7 +224,7 @@ function App() {
     <AppContext.Provider value={{ isLogged, userMail, currentUser }}>
       <div className="root">
 
-        <Header />
+        <Header onSignOut={handleSignOut} />
 
         {!isAppReady ?
           <Spinner /> :
@@ -228,7 +232,7 @@ function App() {
           <Switch>
             <ProtectedRoute
               exact
-              path={'/'}
+              path='/'
               component={Main}
               isLogged={isLogged}
               onEditProfile={handleEditProfileClick}
@@ -239,19 +243,19 @@ function App() {
               onCardLike={handleCardLike}
               onCardDelete={handleCardDelete} />
 
-            <Route exact path={'/sign-up'}>
+            <Route exact path='/sign-up'>
               <Register onFail={handleRegisterOnFail} onSuccess={handleRegisterOnSuccess} />
             </Route>
 
-            <Route exact path={'/sign-in'}>
+            <Route exact path='/sign-in'>
               <Login onFail={handleLoginOnFail} onSuccess={handleLoginOnSuccess} />
             </Route>
 
-            <Route exact path={'/sign-out'}>
+            {/* <Route exact path='/sign-out'>
               <SignOut onSignOut={handleSignOut} />
-            </Route>
+            </Route> */}
 
-            <Route path={'*'}>
+            <Route path='*'>
               <NotFound />
             </Route>
 
