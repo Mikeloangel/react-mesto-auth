@@ -150,12 +150,14 @@ function App() {
       })
   }
 
-  function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
-    const likePromise = isLiked ? api.deleteLike(card._id) : api.putLike(card._id);
+  function handleCardLike(cardToLike) {
+    const isLiked = cardToLike.likes.some(like => like._id === currentUser._id);
+    const likePromise = isLiked ? api.deleteLike(cardToLike._id) : api.putLike(cardToLike._id);
 
     likePromise
-      .then(newCard => setCards(cards => cards.map(c => c._id === card._id ? newCard : c)))
+      .then(newCard => {
+        setCards(prevCards => prevCards.map(card => card._id === cardToLike._id ? newCard : card))
+      })
       .catch(err => api.handleError(err, setApiErrorMessage))
   }
 
@@ -167,7 +169,8 @@ function App() {
     handleSubmitButtonOnApiUpdate(true);
     api.deleteCard(cardToDelete._id)
       .then(() => {
-        setCards(cards.filter(item => item._id !== cardToDelete._id));
+        // Wow! Спасибо новые знания освоены! ヽ(ヅ)ノ
+        setCards(prevCards => prevCards.filter(card => card._id !== cardToDelete._id));
         closeAllPopups();
       })
       .catch(err => api.handleError(err, setApiErrorMessage))
@@ -180,7 +183,8 @@ function App() {
     submitButtonOnUpdate(true);
     api.postCard(newCard)
       .then(addedCard => {
-        setCards([addedCard, ...cards])
+        // setCards([addedCard, ...cards]);
+        setCards(previousCards => [addedCard, ...previousCards]);
         closeAllPopups();
       })
       .catch(err => api.handleError(err, setApiErrorMessage))
