@@ -33,5 +33,5 @@
 }
 
 .section-header__burger_open .section-header__burger-stripe::before {
-  transform: scaleX(0) translate(0px, -24px) rotate(-45deg);
+  transform: scaleX(0) translate(0px, -18px) rotate(-45deg);
 }
