@@ -10,7 +10,6 @@ import ProtectedRoute from './ProtectedRoute';
 
 import Register from "./Register";
 import Login from "./Login";
-// import SignOut from './SignOut';
 
 import Spinner from './Spinner';
 import NotFound from './NotFound';
@@ -254,11 +253,6 @@ function App() {
             <Route exact path='/sign-in'>
               <Login onFail={handleLoginOnFail} onSuccess={handleLoginOnSuccess} />
             </Route>
-
-            <Route exact path='/sign-out' on>
-
-            </Route>
-
 
             {/* <Route exact path='/sign-out'>
               <SignOut onSignOut={handleSignOut} />

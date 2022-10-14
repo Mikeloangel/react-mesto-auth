@@ -9,16 +9,16 @@ import btnClosePopup from '../images/btn-close.svg';
  * @param {Object} imgList {state:src} e.g {'fail',src} or {'done',src}
  * @param {String} type represents state from imgList, 'hidden' will trigger closure
  * @param {Function} onClose
- * @param {Boolean} autoClose
+ * @param {Integer} autoClose in ms, 0 will disable this function
  * @returns JSX
  */
-function InfoToolTip({message , imgList, type = 'hidden', onClose, autoClose = true }){
+function InfoToolTip({ message, imgList, type = 'hidden', onClose, autoClose = 10000 }) {
   //autoclose in 10s
-  useEffect(()=>{
-    if(type !== 'hidden' && autoClose){
-      setTimeout(onClose,10000);
+  useEffect(() => {
+    if (type !== 'hidden' && autoClose > 0) {
+      setTimeout(onClose, autoClose);
     }
-  },[type, autoClose, onClose])
+  }, [type, autoClose, onClose])
 
   return (
     <div className={`popup popup_info ${type !== 'hidden' ? 'popup_opened' : ''}`}>
@@ -26,7 +26,7 @@ function InfoToolTip({message , imgList, type = 'hidden', onClose, autoClose = t
         <button className="popup__btn-close" title="Закрыть окно" type="button">
           <img alt="Закрыть" className="popup__btn-close-img" src={btnClosePopup} onClick={onClose} />
         </button>
-        <img src={imgList[type]} alt={message} className="popup__info-img"/>
+        <img src={imgList[type]} alt={message} className="popup__info-img" />
         <h2 className="popup__info-title">{message}</h2>
       </div>
     </div>
