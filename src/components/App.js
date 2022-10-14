@@ -168,7 +168,6 @@ function App() {
     handleSubmitButtonOnApiUpdate(true);
     api.deleteCard(cardToDelete._id)
       .then(() => {
-        // Wow! Спасибо новые знания освоены! ヽ(ヅ)ノ
         setCards(prevCards => prevCards.filter(card => card._id !== cardToDelete._id));
         closeAllPopups();
       })
@@ -182,7 +181,6 @@ function App() {
     submitButtonOnUpdate(true);
     api.postCard(newCard)
       .then(addedCard => {
-        // setCards([addedCard, ...cards]);
         setCards(previousCards => [addedCard, ...previousCards]);
         closeAllPopups();
       })
@@ -253,10 +251,6 @@ function App() {
             <Route exact path='/sign-in'>
               <Login onFail={handleLoginOnFail} onSuccess={handleLoginOnSuccess} />
             </Route>
-
-            {/* <Route exact path='/sign-out'>
-              <SignOut onSignOut={handleSignOut} />
-            </Route> */}
 
             <Route path='*'>
               <NotFound />
