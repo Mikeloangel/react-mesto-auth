@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import { Redirect } from "react-router-dom";
@@ -21,11 +21,11 @@ function Login({ onFail, onSuccess }) {
     'password': setPasswrodInput
   }
 
-  function handleInputChange(e) {
+  const handleInputChange = useCallback((e) => {
     updateFieldSetter(fieldSetters, e.target.name, e.target.value);
-  }
+  }, [fieldSetters]);
 
-  function handleSubmit(e) {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     setIsSubmittingForm(true);
     apiAuth.authorization(mailInput, passwordInput)
@@ -37,7 +37,7 @@ function Login({ onFail, onSuccess }) {
         setIsSubmittingForm(false);
         console.log(errorMsg);
       });
-  }
+  }, [mailInput, onFail, onSuccess, passwordInput]);
 
   return isLogged ?
     (<Redirect to="/" />) :
